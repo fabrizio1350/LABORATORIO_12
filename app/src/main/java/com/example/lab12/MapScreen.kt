@@ -28,6 +28,7 @@ import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.Polygon
 import com.google.maps.android.compose.Polyline
+import com.google.maps.android.compose.Circle
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -145,6 +146,15 @@ fun MapScreen() {
                 points = rutaArequipa,
                 color = Color.Green,
                 width = 8f
+            )
+
+            // Bonus: Dibujar un Círculo (por ejemplo, alrededor del Mirador de Yanahuara)
+            Circle(
+                center = LatLng(-16.3883, -71.5414), // Mirador de Yanahuara
+                radius = 500.0, // Radio en metros
+                strokeColor = Color.Magenta,
+                strokeWidth = 6f,
+                fillColor = Color.Magenta.copy(alpha = 0.3f)
             )
         }
 
