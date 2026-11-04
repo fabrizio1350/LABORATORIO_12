@@ -19,6 +19,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
+import android.content.pm.PackageManager
+import android.Manifest
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
@@ -33,12 +37,25 @@ import com.google.maps.android.compose.Marker
 
 @Composable
 fun MapScreen() {
+    val context = LocalContext.current
+    val hasLocationPermission = ContextCompat.checkSelfPermission(
+        context,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED
+
     val ArequipaLocation = LatLng(-16.4040102, -71.559611) // Arequipa, Perú
     val cameraPositionState = rememberCameraPositionState {
         position = com.google.android.gms.maps.model.CameraPosition.fromLatLngZoom(ArequipaLocation, 12f)
     }
 
-    var mapProperties by remember { mutableStateOf(MapProperties(mapType = MapType.NORMAL)) }
+    var mapProperties by remember { 
+        mutableStateOf(
+            MapProperties(
+                mapType = MapType.NORMAL,
+                isMyLocationEnabled = hasLocationPermission
+            )
+        ) 
+    }
 
     LaunchedEffect(Unit) {
         cameraPositionState.animate(
