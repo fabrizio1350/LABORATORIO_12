@@ -30,6 +30,20 @@ fun MapScreen() {
                 icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE), // Icono azul
                 title = "Arequipa, Perú"
             )
+
+            val locations = listOf(
+                LatLng(-16.433415, -71.5442652), // JLByR
+                LatLng(-16.4205151, -71.4945209), // Paucarpata
+                LatLng(-16.3524187, -71.5675994) // Zamacola
+            )
+
+            locations.forEach { location ->
+                Marker(
+                    state = rememberMarkerState(position = location),
+                    title = "Ubicación",
+                    snippet = "Punto de interés"
+                )
+            }
         }
     }
 }
