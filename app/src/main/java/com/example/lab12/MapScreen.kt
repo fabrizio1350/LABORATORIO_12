@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Polygon
+import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -96,6 +97,19 @@ fun MapScreen() {
                 strokeColor = Color.Red,
                 fillColor = Color.Blue,
                 strokeWidth = 5f
+            )
+
+            // Ejemplos de Polilíneas (rutas/líneas)
+            val rutaArequipa = listOf(
+                LatLng(-16.398866, -71.536961), // Plaza de Armas
+                LatLng(-16.4040102, -71.559611), // Arequipa centro
+                LatLng(-16.422704, -71.530830)  // Parque Lambramani
+            )
+
+            Polyline(
+                points = rutaArequipa,
+                color = Color.Green,
+                width = 8f
             )
         }
     }
