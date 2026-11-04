@@ -1,12 +1,27 @@
 package com.example.lab12
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.Polygon
 import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
@@ -23,6 +38,8 @@ fun MapScreen() {
         position = com.google.android.gms.maps.model.CameraPosition.fromLatLngZoom(ArequipaLocation, 12f)
     }
 
+    var mapProperties by remember { mutableStateOf(MapProperties(mapType = MapType.NORMAL)) }
+
     LaunchedEffect(Unit) {
         cameraPositionState.animate(
             update = CameraUpdateFactory.newLatLngZoom(LatLng(-16.2520984, -71.6836503), 12f), // Mover a Yura
@@ -34,7 +51,8 @@ fun MapScreen() {
         // Añadir GoogleMap al layout
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
-            cameraPositionState = cameraPositionState
+            cameraPositionState = cameraPositionState,
+            properties = mapProperties
         ) {
             // Añadir marcador en Arequipa, Perú
             Marker(
@@ -111,6 +129,31 @@ fun MapScreen() {
                 color = Color.Green,
                 width = 8f
             )
+        }
+
+        // Fila de botones superpuesta para cambiar el tipo de mapa
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Button(onClick = {
+                mapProperties = mapProperties.copy(mapType = MapType.NORMAL)
+            }) {
+                Text("Normal")
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(onClick = {
+                mapProperties = mapProperties.copy(mapType = MapType.HYBRID)
+            }) {
+                Text("Híbrido")
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(onClick = {
+                mapProperties = mapProperties.copy(mapType = MapType.TERRAIN)
+            }) {
+                Text("Terreno")
+            }
         }
     }
 }
